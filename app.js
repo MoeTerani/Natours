@@ -2,8 +2,22 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 
-// middleware
+//----------MIDDLEWARE FUNCTIONS--------------------------------
+
+// the order of the middleware function are IMPOETANT
 app.use(express.json());
+
+// our own middleware function
+app.use((req, res, next) => {
+  console.log('HELLO FROM THE MIDDLEWARE 👋🏼');
+  next();
+});
+
+// our own middleware function
+app.use((req, res, next) => {
+  req.requestTime = new Date().toDateString();
+  next();
+});
 
 //we read the file on top level because they are read once per request
 const tours = JSON.parse(
@@ -14,8 +28,10 @@ const tours = JSON.parse(
 
 // ALL CALLBACK FUNCTIONS SEPERATED HERE
 const getAllTours = (req, res) => {
+  console.log(req.requestTime);
   res.status(200).json({
     status: 'success',
+    requestesAt: req.requestTime,
     results: tours.length, // whenever sending an Array to client , would be helpful to send the lenght of the array so we know how many obj we Are recieving.
     data: { tours: tours } //first tours is same as the URL tours and the secong one is the variable that we want to send as respose
   });
