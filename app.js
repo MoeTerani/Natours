@@ -18,6 +18,29 @@ app.get('/api/v1/tours', (req, res) => {
   });
 });
 
+//Add a unique identifier like id to url
+app.get('/api/v1/tours/:id', (req, res) => {
+  console.log(req.params); // information about the id is stored in req.params
+
+  const id = req.params.id * 1; // Nice trick to turn string into number inside java script
+  const tour = tours.find(tour => tour.id === id); // use find method to return a new first object with the same id
+
+  //if (id > tours.length) // check to see if the id exist
+
+  if (!tours) {
+    // if the find method doesn't find any match then tour object is undefined and the id doesn't exist
+    res.status(404).json({
+      status: 'Failed',
+      message: 'Invalid ID'
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: { tour }
+  });
+});
+
 app.post('/api/v1/tours', (req, res) => {
   //   console.log(req.body);
   const newId = tours[tours.length - 1].id + 1; // get the latest id of the object + 1 for the new object
