@@ -98,17 +98,27 @@ const deleteTour = (req, res) => {
 
 //-----------ALL HTTP Request--------------------------------
 
-app.get('/api/v1/tours', getAllTours);
+// app.get('/api/v1/tours', getAllTours);
+// app.get('/api/v1/tours/:id', getTour); //Add a unique identifier like id to url
 
-app.get('/api/v1/tours/:id', getTour); //Add a unique identifier like id to url
+// app.post('/api/v1/tours', createTour);
 
-app.post('/api/v1/tours', createTour);
-// update only a part of the object
-app.patch('/api/v1/tours/:id', updateTour);
+// app.patch('/api/v1/tours/:id', updateTour); // update only a part of the object
 
-// HAndling Delete -  NOTE : NOT THE REAL WORLD EXAMPLE ONLY FOR DEMONSTRATION
+// app.delete('/api/v1/tours/:id', deleteTour); // HAndling Delete -  NOTE : NOT THE REAL WORLD EXAMPLE ONLY FOR DEMONSTRATION
 
-app.delete('/api/v1/tours/:id', deleteTour);
+//-----------refactoring 2--------------------------------
+
+app
+  .route('/api/v1/tours')
+  .get(getAllTours)
+  .post(createTour);
+
+app
+  .route('/api/v1/tours/:id')
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 //start the server
 const port = 3000;
