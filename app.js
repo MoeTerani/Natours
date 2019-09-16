@@ -67,7 +67,7 @@ app.post('/api/v1/tours', (req, res) => {
     }
   );
 });
-
+// update only a part of the object
 app.patch('/api/v1/tours/:id', (req, res) => {
   if (req.params.id * 1 > tours.length) {
     res.status(404).json({
@@ -78,6 +78,21 @@ app.patch('/api/v1/tours/:id', (req, res) => {
   res.status(200).json({
     status: 'success',
     data: { tour: '<Updated Tour here ...>' }
+  });
+});
+
+// HAndling Delete -  NOTE : NOT THE REAL WORLD EXAMPLE ONLY FOR DEMONSTRATION
+
+app.delete('/api/v1/tours/:id', (req, res) => {
+  if (req.params.id * 1 > tours.length) {
+    res.status(404).json({
+      status: 'Failed',
+      message: 'Invalid ID'
+    });
+  }
+  res.status(202).json({
+    status: 'success',
+    data: null
   });
 });
 
