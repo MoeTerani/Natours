@@ -10,16 +10,18 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-app.get('/api/v1/tours', (req, res) => {
+//-----------CALLBACK FUNCTIONS--------------------------------
+
+// ALL CALLBACK FUNCTIONS SEPERATED HERE
+const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
     results: tours.length, // whenever sending an Array to client , would be helpful to send the lenght of the array so we know how many obj we Are recieving.
     data: { tours: tours } //first tours is same as the URL tours and the secong one is the variable that we want to send as respose
   });
-});
+};
 
-//Add a unique identifier like id to url
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
   console.log(req.params); // information about the id is stored in req.params
 
   const id = req.params.id * 1; // Nice trick to turn string into number inside java script
@@ -39,9 +41,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
     status: 'success',
     data: { tour }
   });
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   //   console.log(req.body);
   const newId = tours[tours.length - 1].id + 1; // get the latest id of the object + 1 for the new object
 
@@ -66,9 +68,9 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
-});
-// update only a part of the object
-app.patch('/api/v1/tours/:id', (req, res) => {
+};
+
+const updateTour = (req, res) => {
   if (req.params.id * 1 > tours.length) {
     res.status(404).json({
       status: 'Failed',
@@ -79,11 +81,9 @@ app.patch('/api/v1/tours/:id', (req, res) => {
     status: 'success',
     data: { tour: '<Updated Tour here ...>' }
   });
-});
+};
 
-// HAndling Delete -  NOTE : NOT THE REAL WORLD EXAMPLE ONLY FOR DEMONSTRATION
-
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   if (req.params.id * 1 > tours.length) {
     res.status(404).json({
       status: 'Failed',
@@ -94,20 +94,24 @@ app.delete('/api/v1/tours/:id', (req, res) => {
     status: 'success',
     data: null
   });
-});
+};
+
+//-----------ALL HTTP Request--------------------------------
+
+app.get('/api/v1/tours', getAllTours);
+
+app.get('/api/v1/tours/:id', getTour); //Add a unique identifier like id to url
+
+app.post('/api/v1/tours', createTour);
+// update only a part of the object
+app.patch('/api/v1/tours/:id', updateTour);
+
+// HAndling Delete -  NOTE : NOT THE REAL WORLD EXAMPLE ONLY FOR DEMONSTRATION
+
+app.delete('/api/v1/tours/:id', deleteTour);
 
 //start the server
 const port = 3000;
 app.listen(port, () => {
   console.log(`app running on port ${port}`);
 });
-
-// app.get('/', (req, res) => {
-//   res
-//     .status(200)
-//     .json({ message: 'Hello from the server! :D', app: 'Natours' });
-// });
-
-// app.post('/', (req, res) => {
-//   res.send('You can write to this endpoint');
-// });
