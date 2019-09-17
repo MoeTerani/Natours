@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
-//----------MIDDLEWARE FUNCTIONS--------------------------------
+// ----------MIDDLEWARE FUNCTIONS--------------------------------
 
 // the order of the middleware function are IMPOETANT
 app.use(express.json());
@@ -160,30 +160,41 @@ const createUser = (req, res) => {
 // app.delete('/api/v1/tours/:id', deleteTour); // HAndling Delete -  NOTE : NOT THE REAL WORLD EXAMPLE ONLY FOR DEMONSTRATION
 
 //-----------refactoring 2--------------------------------
+//tour route
+const tourRouter = express.Router();
 
-app
-  .route('/api/v1/tours')
+// tour route middleware
+app.use('/api/v1/tours', tourRouter);
+
+tourRouter
+  .route('/')
   .get(getAllTours)
   .post(createTour);
 
-app
-  .route('/api/v1/tours/:id')
+tourRouter
+  .route('/:id')
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
 
-app
-  .route('/api/v1/users')
+//USER ROUTER
+const userRouter = express.Router();
+
+// user route middleware
+app.use('/api/v1/users', userRouter);
+
+userRouter
+  .route('/')
   .get(getAllUsers)
   .post(createUser);
 
-app
-  .route('/api/v1/users/:id')
+userRouter
+  .route('/:id')
   .get(getUser)
   .patch(updateUser)
   .delete(deleteUser);
 
-//---------start the server------------
+// ---------start the server------------
 const port = 3000;
 app.listen(port, () => {
   console.log(`app running on port ${port}`);
