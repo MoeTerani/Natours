@@ -3,14 +3,13 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
-//----------MORGAN--------------------------------
-app.use(morgan('dev'));
-
 //----------MIDDLEWARE FUNCTIONS--------------------------------
 
 // the order of the middleware function are IMPOETANT
 app.use(express.json());
 
+//----------MORGAN--------------------------------
+app.use(morgan('dev')); // console.log out the incoming request
 // our own middleware function
 app.use((req, res, next) => {
   console.log('HELLO FROM THE MIDDLEWARE 👋🏼');
@@ -116,6 +115,39 @@ const deleteTour = (req, res) => {
   });
 };
 
+//---------USERS HANDLERS------------
+
+const getAllUsers = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not implemented'
+  });
+};
+const getUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not implemented'
+  });
+};
+const updateUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not implemented'
+  });
+};
+const deleteUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not implemented'
+  });
+};
+const createUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not implemented'
+  });
+};
+
 //-----------ALL HTTP Request--------------------------------
 
 // app.get('/api/v1/tours', getAllTours);
@@ -139,6 +171,17 @@ app
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+app
+  .route('/api/v1/users')
+  .get(getAllUsers)
+  .post(createUser);
+
+app
+  .route('/api/v1/users/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 //---------start the server------------
 const port = 3000;
