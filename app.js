@@ -1,6 +1,10 @@
 const fs = require('fs');
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
+
+//----------MORGAN--------------------------------
+app.use(morgan('dev'));
 
 //----------MIDDLEWARE FUNCTIONS--------------------------------
 
@@ -136,7 +140,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
-//start the server
+//---------start the server------------
 const port = 3000;
 app.listen(port, () => {
   console.log(`app running on port ${port}`);
