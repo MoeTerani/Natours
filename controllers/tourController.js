@@ -6,6 +6,18 @@ const tours = JSON.parse(
 );
 
 // ALL CALLBACK FUNCTIONS SEPERATED HERE
+
+exports.checkID = (req, res, next, value) => {
+  console.log(`Tour ID is: ${value}`);
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      status: 'Failed',
+      message: 'Invalid ID'
+    });
+  }
+  next();
+};
+
 exports.getAllTours = (req, res) => {
   console.log(req.requestTime);
   res.status(200).json({
@@ -21,16 +33,6 @@ exports.getTour = (req, res) => {
 
   const id = req.params.id * 1; // Nice trick to turn string into number inside java script
   const tour = tours.find(tour => tour.id === id); // use find method to return a new first object with the same id
-
-  //if (id > tours.length) // check to see if the id exist
-
-  if (!tours) {
-    // if the find method doesn't find any match then tour object is undefined and the id doesn't exist
-    res.status(404).json({
-      status: 'Failed',
-      message: 'Invalid ID'
-    });
-  }
 
   res.status(200).json({
     status: 'success',
@@ -66,12 +68,6 @@ exports.createTour = (req, res) => {
 };
 
 exports.updateTour = (req, res) => {
-  if (req.params.id * 1 > tours.length) {
-    res.status(404).json({
-      status: 'Failed',
-      message: 'Invalid ID'
-    });
-  }
   res.status(200).json({
     status: 'success',
     data: { tour: '<Updated Tour here ...>' }
@@ -79,12 +75,6 @@ exports.updateTour = (req, res) => {
 };
 
 exports.deleteTour = (req, res) => {
-  if (req.params.id * 1 > tours.length) {
-    res.status(404).json({
-      status: 'Failed',
-      message: 'Invalid ID'
-    });
-  }
   res.status(202).json({
     status: 'success',
     data: null

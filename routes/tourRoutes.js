@@ -5,6 +5,9 @@ const tourController = require('../controllers/tourController'); // import tour 
 //tour ROUTER
 const router = express.Router();
 
+//PARAM middleware
+router.param('id', tourController.checkID);
+
 router
   .route('/')
   .get(tourController.getAllTours)
