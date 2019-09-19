@@ -13,6 +13,10 @@ app.use(express.json());
 //----------MORGAN--------------------------------
 app.use(morgan('dev')); // console.log out the incoming request
 // our own middleware function
+
+//------------------SERVING STATIC FILES from files sytems------------------------
+app.use(express.static(`${__dirname}/public`));
+
 app.use((req, res, next) => {
   console.log('HELLO FROM THE MIDDLEWARE 👋🏼');
   next();
