@@ -7,9 +7,25 @@ const tours = JSON.parse(
 
 // ALL CALLBACK FUNCTIONS SEPERATED HERE
 
+// ADD a check ID middleware to automatically check the id of each http request for tours
 exports.checkID = (req, res, next, value) => {
   console.log(`Tour ID is: ${value}`);
   if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      status: 'Failed',
+      message: 'Invalid ID'
+    });
+  }
+  next();
+};
+
+//----------challenge-------------
+//create a middlware function , check if the body containg name and price property is
+// if not , send back a 400 bad reequest message.admin-nav
+//ADD to post handler stack to
+
+exports.checkBody = (req, res, next) => {
+  if (!req.body.name || !req.body.price) {
     return res.status(404).json({
       status: 'Failed',
       message: 'Invalid ID'
