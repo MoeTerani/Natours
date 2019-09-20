@@ -1,3 +1,5 @@
+// ANUTHING THAT HS TO DO WITH EXPRESS WILL BE IN THIS ""APP.JS" FILE
+
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
@@ -11,7 +13,10 @@ const userRouter = require('./routes/userRoutes');
 app.use(express.json());
 
 //----------MORGAN--------------------------------
-app.use(morgan('dev')); // console.log out the incoming request
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+} // console.log out the incoming request
 // our own middleware function
 
 //------------------SERVING STATIC FILES from files sytems------------------------
