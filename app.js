@@ -1,7 +1,9 @@
 // ANUTHING THAT HS TO DO WITH EXPRESS WILL BE IN THIS ""APP.JS" FILE
 
 const express = require('express');
+
 const app = express();
+
 const morgan = require('morgan');
 
 const tourRouter = require('./routes/tourRoutes');
