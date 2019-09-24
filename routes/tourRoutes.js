@@ -6,7 +6,7 @@ const tourController = require('../controllers/tourController'); // import tour 
 const router = express.Router();
 
 //PARAM middleware to automatically check incomin http request and follow DRY
-router.param('id', tourController.checkID);
+/* router.param('id', tourController.checkID); */
 
 //create a middlware function , check if the body containg name and price property is
 // if not , send back a 400 bad reequest message.admin-nav
