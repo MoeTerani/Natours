@@ -19,6 +19,6 @@ const tourSchema = new mongoose.Schema({
 });
 
 // create a Tour model out of the tour schema
-const Tour = mongoose.model('Tour', tourSchema); // convention to capoitilixe the name of the models and variables
+const Tour = mongoose.model('Tour', tourSchema); // convention to capitalize the name of the models and variables
 
 module.exports = Tour;

@@ -12,21 +12,12 @@ const tours = JSON.parse(
 // if not , send back a 400 bad reequest message.admin-nav
 //ADD to post handler stack to
 
-exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(404).json({
-      status: 'Failed',
-      message: 'Invalid ID'
-    });
-  }
-  next();
-};
-
 exports.getAllTours = (req, res) => {
   console.log(req.requestTime);
   res.status(200).json({
     status: 'success',
     requestesAt: req.requestTime
+
     /*   results: tours.length, // whenever sending an Array to client , would be helpful to send the lenght of the array so we know how many obj we Are recieving.
     data: { tours: tours } //first tours is same as the URL tours and the secong one is the variable that we want to send as respose
    */
@@ -46,12 +37,26 @@ exports.getTour = (req, res) => {
   }); */
 };
 
-exports.createTour = (req, res) => {
-  res.status(201).json({
-    status: 'success'
-    /*     data: { tours: newTours }
-  }); */
-  });
+exports.createTour = async (req, res) => {
+  try {
+    /* // First alternative to create new model
+  const newTour = new Tour({});
+  newTour.save()  // Will return a promise */
+
+    // The better alternative
+    const newTour = await Tour.create(req.body);
+
+    res.status(201).json({
+      status: 'success',
+
+      data: { tours: newTour }
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'faill',
+      message: err
+    });
+  }
 };
 
 exports.updateTour = (req, res) => {
